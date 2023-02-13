@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CarRental.Models;
+using CarRental.Data;
 
 namespace CarRental.Controllers
 {
     public class LocalisationsController : Controller
     {
-        private readonly CarRentalDBContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public LocalisationsController(CarRentalDBContext context)
+        public LocalisationsController(ApplicationDbContext context)
         {
             _context = context;
         }
