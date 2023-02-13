@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CarRental.Models.Types>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Types</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.type)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.id_type  }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.id_type })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
