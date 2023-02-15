@@ -6,6 +6,7 @@ using CarRental.Migrations;
 using SQLitePCL;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using CarRental.Models;
 
 namespace CarRental.Controllers
 {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarRental.Migrations
 {
-    public partial class Customer : Migration
+    public partial class ALL : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,6 +48,52 @@ namespace CarRental.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "localisations",
+                columns: table => new
+                {
+                    id_localisation = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    city = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    street = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    number = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_localisations", x => x.id_localisation);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "payments",
+                columns: table => new
+                {
+                    id_payment = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    payment_date = table.Column<DateTime>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_payments", x => x.id_payment);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "rentals",
+                columns: table => new
+                {
+                    id_rental = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id_customer = table.Column<int>(type: "int", nullable: false),
+                    id_car = table.Column<int>(type: "int", nullable: false),
+                    id_payment = table.Column<int>(type: "int", nullable: false),
+                    date_from = table.Column<DateTime>(type: "date", nullable: false),
+                    date_to = table.Column<DateTime>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_rentals", x => x.id_rental);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +202,65 @@ namespace CarRental.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "cars",
+                columns: table => new
+                {
+                    id_car = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Types = table.Column<int>(type: "int", nullable: false),
+                    Localisations = table.Column<int>(type: "int", nullable: false),
+                    make = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    model = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    vin = table.Column<string>(type: "char(17)", nullable: false),
+                    power = table.Column<int>(type: "int", nullable: false),
+                    price_per_day = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_cars", x => x.id_car);
+                    table.ForeignKey(
+                        name: "FK_cars_localisations_Localisations",
+                        column: x => x.Localisations,
+                        principalTable: "localisations",
+                        principalColumn: "id_localisation",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_cars_types_Types",
+                        column: x => x.Types,
+                        principalTable: "types",
+                        principalColumn: "id_type",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "88fda05b-ef52-48ed-9e6a-9d77f2f28fee", "Admin", "ADMIN" },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7211", "8ce29d4c-2c65-42ce-be24-be3fa8c8db14", "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "first_name", "last_name" },
+                values: new object[,]
+                {
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb8", 0, "e9b64f50-db2c-42d9-90f1-1da198af8d51", "user@user.user", false, false, null, "USER@USER.USER", "USER@USER.USER", "AQAAAAEAACcQAAAAEESwsHMZgalke0MdUH2gpGSfdhZChCNHMo6AiEdQdXutN4E5y7gK1mLNuVcxjbPIHg==", "987654321", false, "f39859ca-489e-45bc-8b03-79305c808788", false, "user@user.user", "User", "User" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "ca7b1433-7851-49a0-b5a9-98b062b60054", "admin@admin.admin", false, false, null, "ADMIN@ADMIN.ADMIN", "ADMIN@ADMIN.ADMIN", "AQAAAAEAACcQAAAAEMOOqjO7ZrI4V3aGuwwjSAf0IKYf18SreEFJt83qyg7vKsKhS21TFolxXgBSCwts+g==", "123456789", false, "72a10959-ac96-4f11-99ae-899c4f83ac5e", false, "admin@admin.admin", "Admin", "Admin" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "2c5e174e-3b0e-446f-86af-483d56fd7211", "8e445865-a24d-4543-a6c6-9443d048cdb8" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "2c5e174e-3b0e-446f-86af-483d56fd7210", "8e445865-a24d-4543-a6c6-9443d048cdb9" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +299,16 @@ namespace CarRental.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_cars_Localisations",
+                table: "cars",
+                column: "Localisations");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_cars_Types",
+                table: "cars",
+                column: "Types");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -214,10 +329,22 @@ namespace CarRental.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "cars");
+
+            migrationBuilder.DropTable(
+                name: "payments");
+
+            migrationBuilder.DropTable(
+                name: "rentals");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "localisations");
         }
     }
 }

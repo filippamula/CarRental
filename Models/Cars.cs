@@ -7,12 +7,10 @@ namespace CarRental.Models
     {
         [Key]
         public int id_car { get; set; }
-        [Required]
         [ForeignKey("Types")]
-        public Types type { get; set; }
-        [Required]
+        public Types? type { get; set; }
         [ForeignKey("Localisations")]
-        public Localisations localisation { get; set; }
+        public Localisations? localisation { get; set; }
         [Required]
         [Column(TypeName ="nvarchar(50)")]
         public string make { get; set; }

@@ -4,6 +4,7 @@ using CarRental.Areas.Identity.Data;
 using CarRental.Data;
 using CarRental.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Controllers
 {
@@ -20,7 +21,10 @@ namespace CarRental.Controllers
         // GET: CarsController
         public ActionResult Index()
         {
-            return View(_context.cars);
+            return View(_context.cars
+                .Include(t => t.type)
+                .Include(l => l.localisation)
+                .ToList());
         }
 
 
@@ -35,6 +39,8 @@ namespace CarRental.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Cars car)
         {
+            car.localisation = _context.localisations.ToList().FirstOrDefault(x => x.id_localisation == car.localisation.id_localisation);
+            car.type = _context.types.ToList().FirstOrDefault(x => x.id_type == car.type.id_type);
             try
             {
                 _context.Add(car);

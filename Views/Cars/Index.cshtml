@@ -40,10 +40,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.type)
+                @Html.DisplayFor(modelItem => item.type.id_type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.localisation)
+                @Html.DisplayFor(modelItem => item.localisation.id_localisation)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.make)

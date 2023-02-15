@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230213145117_Roles")]
-    partial class Roles
+    [Migration("20230215190859_ALL")]
+    partial class ALL
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,16 +101,16 @@ namespace CarRental.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4c9919bc-feaf-4b32-ac08-b4b1907093dc",
+                            ConcurrencyStamp = "ca7b1433-7851-49a0-b5a9-98b062b60054",
                             Email = "admin@admin.admin",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.ADMIN",
                             NormalizedUserName = "ADMIN@ADMIN.ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBxc5vXyELAfUhbCB3W95qbQlXy+0XitlIto0mmpuSU/h7jsmcRm9pZh0HZIRlsvYQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMOOqjO7ZrI4V3aGuwwjSAf0IKYf18SreEFJt83qyg7vKsKhS21TFolxXgBSCwts+g==",
                             PhoneNumber = "123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "85cfb69f-3887-42d9-b289-3ecd3a044843",
+                            SecurityStamp = "72a10959-ac96-4f11-99ae-899c4f83ac5e",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.admin",
                             first_name = "Admin",
@@ -120,16 +120,16 @@ namespace CarRental.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d7f5aeb7-4712-4cab-8a62-bc7f5741873f",
+                            ConcurrencyStamp = "e9b64f50-db2c-42d9-90f1-1da198af8d51",
                             Email = "user@user.user",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@USER.USER",
                             NormalizedUserName = "USER@USER.USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEtSbqPndVN4F87arNLWmJRfrROdSYBkJrlEzzChoKzfYFgoOOKMJARntmAMdWWfbA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEESwsHMZgalke0MdUH2gpGSfdhZChCNHMo6AiEdQdXutN4E5y7gK1mLNuVcxjbPIHg==",
                             PhoneNumber = "987654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5eafab97-4d6e-4a4a-81bf-a152bec4c5fc",
+                            SecurityStamp = "f39859ca-489e-45bc-8b03-79305c808788",
                             TwoFactorEnabled = false,
                             UserName = "user@user.user",
                             first_name = "User",
@@ -145,10 +145,10 @@ namespace CarRental.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_car"), 1L, 1);
 
-                    b.Property<int>("id_localisation")
+                    b.Property<int>("Localisations")
                         .HasColumnType("int");
 
-                    b.Property<int>("id_type")
+                    b.Property<int>("Types")
                         .HasColumnType("int");
 
                     b.Property<string>("make")
@@ -170,6 +170,10 @@ namespace CarRental.Migrations
                         .HasColumnType("char(17)");
 
                     b.HasKey("id_car");
+
+                    b.HasIndex("Localisations");
+
+                    b.HasIndex("Types");
 
                     b.ToTable("cars");
                 });
@@ -292,14 +296,14 @@ namespace CarRental.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "3aa8933c-a9c2-4ad0-bfbb-e87c43b5009e",
+                            ConcurrencyStamp = "88fda05b-ef52-48ed-9e6a-9d77f2f28fee",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7211",
-                            ConcurrencyStamp = "c464c3a8-1cab-478a-93be-cef8fbc92df5",
+                            ConcurrencyStamp = "8ce29d4c-2c65-42ce-be24-be3fa8c8db14",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -425,6 +429,25 @@ namespace CarRental.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("CarRental.Models.Cars", b =>
+                {
+                    b.HasOne("CarRental.Models.Localisations", "localisation")
+                        .WithMany()
+                        .HasForeignKey("Localisations")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarRental.Models.Types", "type")
+                        .WithMany()
+                        .HasForeignKey("Types")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("localisation");
+
+                    b.Navigation("type");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

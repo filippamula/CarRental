@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace CarRental.Controllers
 {
@@ -23,13 +24,10 @@ namespace CarRental.Controllers
         // GET: Guest/Details/5
         public ActionResult Details(int id)
         {
-            //return View(_context.cars.ToList().FirstOrDefault(x => x.id_car == id));
-            return View(_context.Users.Include("cars").Include("types"));
-        }
-
-        public ActionResult GetTypeName(int tid)
-        {
-            return View(_context.types.Where(x => x.id_type == tid));
+            return View(_context.cars
+                .Include(t => t.type)
+                .Include(l => l.localisation)
+                .FirstOrDefault(x => x.id_car == id));
         }
     }
 }
