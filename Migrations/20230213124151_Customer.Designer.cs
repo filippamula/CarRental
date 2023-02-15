@@ -4,6 +4,7 @@ using CarRental.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class CarRentalDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230213124151_Customer")]
+    partial class Customer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,87 +95,6 @@ namespace CarRental.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "74790a12-cd22-42e5-9256-ecbed2e28c7e",
-                            Email = "admin@admin.admin",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@ADMIN.ADMIN",
-                            NormalizedUserName = "ADMIN@ADMIN.ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAENt+s26L7snVlCrTUYB8vDYOLVLz1vheex+55Fvo3ULXfI5QtTJwwhpZa5iwG7YsNA==",
-                            PhoneNumber = "123456789",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "40314b10-1bd3-4190-a815-84131660a060",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@admin.admin",
-                            first_name = "Admin",
-                            last_name = "Admin"
-                        },
-                        new
-                        {
-                            Id = "8e445865-a24d-4543-a6c6-9443d048cdb8",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "fb2fc929-12ee-4507-a208-87ab677ebb60",
-                            Email = "user@user.user",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "USER@USER.USER",
-                            NormalizedUserName = "USER@USER.USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPlN4EuOaCQhkydFFmSdD90MD5VLUwUzoy8DttTq93GgFObJArsjwXZONCwZFsD+Sw==",
-                            PhoneNumber = "987654321",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "01b6febe-57f5-4969-a414-5379a6f3018a",
-                            TwoFactorEnabled = false,
-                            UserName = "user@user.user",
-                            first_name = "User",
-                            last_name = "User"
-                        });
-                });
-
-            modelBuilder.Entity("CarRental.Models.Cars", b =>
-                {
-                    b.Property<int>("id_car")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_car"), 1L, 1);
-
-                    b.Property<int>("Localisations")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Types")
-                        .HasColumnType("int");
-
-                    b.Property<string>("make")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("model")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("power")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("price_per_day")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<string>("vin")
-                        .IsRequired()
-                        .HasColumnType("char(17)");
-
-                    b.HasKey("id_car");
-
-                    b.HasIndex("Localisations");
-
-                    b.HasIndex("Types");
-
-                    b.ToTable("cars");
                 });
 
             modelBuilder.Entity("CarRental.Models.Localisations", b =>
@@ -219,34 +140,6 @@ namespace CarRental.Migrations
                     b.ToTable("payments");
                 });
 
-            modelBuilder.Entity("CarRental.Models.Rentals", b =>
-                {
-                    b.Property<int>("id_rental")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_rental"), 1L, 1);
-
-                    b.Property<DateTime>("date_from")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("date_to")
-                        .HasColumnType("date");
-
-                    b.Property<int>("id_car")
-                        .HasColumnType("int");
-
-                    b.Property<int>("id_customer")
-                        .HasColumnType("int");
-
-                    b.Property<int>("id_payment")
-                        .HasColumnType("int");
-
-                    b.HasKey("id_rental");
-
-                    b.ToTable("rentals");
-                });
-
             modelBuilder.Entity("CarRental.Models.Types", b =>
                 {
                     b.Property<int>("id_type")
@@ -289,22 +182,6 @@ namespace CarRental.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "c37ed34e-eba4-4f30-a8a6-a8489505f40c",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "2c5e174e-3b0e-446f-86af-483d56fd7211",
-                            ConcurrencyStamp = "4d65a292-98d0-488a-8b10-9a9a3e57bc6f",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -394,18 +271,6 @@ namespace CarRental.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9",
-                            RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7210"
-                        },
-                        new
-                        {
-                            UserId = "8e445865-a24d-4543-a6c6-9443d048cdb8",
-                            RoleId = "2c5e174e-3b0e-446f-86af-483d56fd7211"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -427,25 +292,6 @@ namespace CarRental.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("CarRental.Models.Cars", b =>
-                {
-                    b.HasOne("CarRental.Models.Localisations", "localisation")
-                        .WithMany()
-                        .HasForeignKey("Localisations")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarRental.Models.Types", "type")
-                        .WithMany()
-                        .HasForeignKey("Types")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("localisation");
-
-                    b.Navigation("type");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

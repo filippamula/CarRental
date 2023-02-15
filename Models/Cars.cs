@@ -9,10 +9,10 @@ namespace CarRental.Models
         public int id_car { get; set; }
         [Required]
         [ForeignKey("Types")]
-        public int id_type { get; set; }
+        public Types type { get; set; }
         [Required]
         [ForeignKey("Localisations")]
-        public int id_localisation { get; set; }
+        public Localisations localisation { get; set; }
         [Required]
         [Column(TypeName ="nvarchar(50)")]
         public string make { get; set; }

@@ -80,6 +80,15 @@ namespace CarRental.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            [Required]
+            [Display(Name = "FirstName")]
+            [StringLength(255, ErrorMessage = "max 255.")]
+            public string FirstName { get; set; }
+            [Required]
+            [Display(Name = "LastName")]
+            [StringLength(255, ErrorMessage = "max 255.")]
+            public string LastName { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -114,6 +123,8 @@ namespace CarRental.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.first_name = Input.FirstName;
+                user.last_name = Input.LastName;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -121,6 +132,9 @@ namespace CarRental.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    var currentUser = _userManager.FindByEmailAsync(Input.Email);
+                    IdentityResult identity = await _userManager.AddToRoleAsync(currentUser.Result, "User");
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

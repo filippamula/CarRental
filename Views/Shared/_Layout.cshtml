@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using CarRental.Areas.Identity.Data;
+@using Microsoft.AspNetCore.Identity;
+
+@inject SignInManager<Customer> SignInManager
+@inject UserManager<Customer> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,6 +13,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CarRental.styles.css" asp-append-version="true" />
+
 </head>
 <body>
     <header>
@@ -18,16 +25,51 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Types" asp-action="Index">Types</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Index">Payments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Localisations" asp-action="Index">Localisations</a>
-                        </li>
+                    <ul class="navbar-nav flex-grow-1">                      
+                        @{
+                            Customer customer = await UserManager.GetUserAsync(User);
+                            string role;
+                            if (customer is null)
+                                role = "Guest";
+                            else
+                                role = UserManager.GetRolesAsync(customer).Result.FirstOrDefault();
+                            switch (role)
+                                {
+                                    case "Admin":
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Types" asp-action="Index">Types</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Payments" asp-action="Index">Payments</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Localisations" asp-action="Index">Localisations</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Cars" asp-action="Index">Cars</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Rentals" asp-action="Index">Rentals</a>
+                                            </li>
+                                        }
+                                        break;
+
+                                    case "User":
+                                        {
+
+                                        }
+                                        break;
+                                    default:
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Guest" asp-action="Index">Car list</a>
+                                            </li>
+                                        }
+                                        break;
+                                }
+
+                    }
                     </ul>
                 </div>
                 <partial name="_LoginPartial"/>

@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using CarRental.Models;
 using CarRental.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarRental.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class LocalisationsController : Controller
     {
         private readonly ApplicationDbContext _context;

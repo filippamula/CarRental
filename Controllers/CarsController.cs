@@ -1,42 +1,43 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using CarRental.Models;
+using CarRental.Areas.Identity.Data;
 using CarRental.Data;
+using CarRental.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace CarRental.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class PaymentsController : Controller
+    public class CarsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PaymentsController (ApplicationDbContext context)
+        public CarsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: PaymentsControler
+        // GET: CarsController
         public ActionResult Index()
         {
-            return View(_context.payments.ToList());
+            return View(_context.cars);
         }
 
 
-        // GET: PaymentsControler/Create
+        // GET: CarsController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: PaymentsControler/Create
+        // POST: CarsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Payments payment)
+        public ActionResult Create(Cars car)
         {
             try
             {
-                _context.payments.Add(payment);
+                _context.Add(car);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -46,20 +47,20 @@ namespace CarRental.Controllers
             }
         }
 
-        // GET: PaymentsControler/Edit/5
+        // GET: CarsController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(_context.payments.ToList().FirstOrDefault(x => x.id_payment == id));
+            return View();
         }
 
-        // POST: PaymentsControler/Edit/5
+        // POST: CarsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Payments payment)
+        public ActionResult Edit(int id, Cars car)
         {
             try
             {
-                _context.Update(payment);
+                _context.Update(car);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -69,20 +70,20 @@ namespace CarRental.Controllers
             }
         }
 
-        // GET: PaymentsControler/Delete/5
+        // GET: CarsController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View(_context.payments.ToList().FirstOrDefault(x => x.id_payment == id));
+            return View();
         }
 
-        // POST: PaymentsControler/Delete/5
+        // POST: CarsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Payments payment)
+        public ActionResult Delete(int id, Cars car)
         {
             try
             {
-                _context.Remove(payment);
+                _context.Remove(car);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
