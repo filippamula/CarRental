@@ -1,0 +1,76 @@
+﻿@model IEnumerable<CarRental.Models.Rentals>
+
+@inject CarRental.Data.ApplicationDbContext _context
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.car.make)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.car.model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.car.localisation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date_from)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date_to)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.payment)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+             <td>
+                @Html.DisplayFor(modelItem => item.car.make)
+             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.car.model)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.car.localisation.city)@Html.DisplayFor(modelItem => item.car.localisation.street) @Html.DisplayFor(modelItem => item.car.localisation.number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_from)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_to)
+            </td>
+            
+            @if (item.payment.payment_date is null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.payment.amount)
+                </td>
+                <td>
+                    <a asp-action="Pay" asp-route-id="@item.payment.id_payment">Pay</a>
+                </td> 
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.payment.amount)
+                </td>
+                <td style="color: limegreen">
+                    Paid
+                </td> 
+            }
+                
+        </tr>
+}
+    </tbody>
+</table>

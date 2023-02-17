@@ -74,14 +74,37 @@ namespace CarRental.Controllers
             rental.customer = await _userManager.GetUserAsync(User);
             Payments payment = new Payments();
             payment.amount = (double)car.price_per_day * ((date_to - date_from).TotalDays);
-            payment.payment_date = DateTime.Now;
             rental.payment = payment;
             _context.Add(payment);
             _context.SaveChanges();
             _context.Add(rental);
             _context.SaveChanges();
 
-            return RedirectToAction(nameof(Fleet));
+            return RedirectToAction(nameof(Reservations));
+        }
+        
+        public async Task<ActionResult> Reservations()
+        {
+            Customer user = await _userManager.GetUserAsync(User);
+            return View(
+                _context.rentals
+                .Include(u => u.customer)
+                .Include(u => u.car)
+                .Include(l => l.car.localisation)
+                .Include(p => p.payment)
+                .ToList()
+                .Where(x => x.customer == user)
+                );
+        }
+
+        public ActionResult Pay(int id)
+        {
+            Payments payment = _context.payments.ToList().FirstOrDefault(x => x.id_payment == id);
+            payment.payment_date = DateTime.Now;
+            _context.Update(payment);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Reservations));
         }
     }
 }
