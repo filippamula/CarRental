@@ -55,7 +55,7 @@ namespace CarRental.Controllers
         {
             Cars car = _context.cars.ToList().FirstOrDefault(x => x.id_car == id);
             if (date_from < DateTime.Now)
-                return RedirectToAction(nameof(Fleet));
+                return RedirectToAction(nameof(Error));
             if (date_to < date_from)
                 return RedirectToAction(nameof(Fleet));
 
@@ -105,6 +105,11 @@ namespace CarRental.Controllers
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Reservations));
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
     }
 }

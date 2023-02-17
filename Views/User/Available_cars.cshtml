@@ -4,11 +4,8 @@
     ViewData["Title"] = "Available_cars";
 }
 
-<h1>Available_cars</h1>
+<h1>Available cars</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -49,9 +46,7 @@
                 @Html.DisplayFor(modelItem => item.price_per_day)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id_car">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id_car">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id_car">Delete</a>
+                <a asp-action="Reserve" asp-route-id="@item.id_car">Reserve</a>
             </td>
         </tr>
 }
