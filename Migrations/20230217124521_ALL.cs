@@ -72,7 +72,7 @@ namespace CarRental.Migrations
                     id_payment = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    payment_date = table.Column<DateTime>(type: "date", nullable: false)
+                    payment_date = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -254,8 +254,8 @@ namespace CarRental.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "fcf8fe1a-a341-45bd-908d-5388ec8f034b", "Admin", "ADMIN" },
-                    { "2c5e174e-3b0e-446f-86af-483d56fd7211", "bbadd2b5-4a41-4c24-a2eb-0a47c785915f", "User", "USER" }
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "76d58b54-d7a3-4171-8a9f-cb318d4dee66", "Admin", "ADMIN" },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7211", "5a011fbb-ec1a-40d1-9fb3-bac4f4f6260c", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -263,19 +263,50 @@ namespace CarRental.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "first_name", "last_name" },
                 values: new object[,]
                 {
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb8", 0, "6b18f4fc-2018-46f7-8b9f-0aa4062cce72", "user@user.user", false, false, null, "USER@USER.USER", "USER@USER.USER", "AQAAAAEAACcQAAAAEOAQxoWoRhcAXg3a+KRFBXf9nR6buQkBJBDjevAB4Zx40V9l1xnek0i/dDiY8uXSNA==", "987654321", false, "cc629663-8c39-44ef-bede-9289f63ad7eb", false, "user@user.user", "User", "User" },
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "24e77769-ba3f-498d-b08e-809860ee5354", "admin@admin.admin", false, false, null, "ADMIN@ADMIN.ADMIN", "ADMIN@ADMIN.ADMIN", "AQAAAAEAACcQAAAAEHbIhF4iJDD4KSXiozoUx835BofkFf+v9XrHfDL3Qwe+X5xxQ2/nXeg7n/Es0aizkQ==", "123456789", false, "8a565466-9494-4bad-bad5-924d4d692051", false, "admin@admin.admin", "Admin", "Admin" }
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb8", 0, "c1fc4525-0e44-45f5-a245-2cb69d606aca", "user@user.user", false, false, null, "USER@USER.USER", "USER@USER.USER", "AQAAAAEAACcQAAAAEJDUrRiithSJ7uczrUvFAv2jvQrPhdvEHo4rA8wLI6XCf5UKbNCuVG79NyrNsxeu6g==", "987654321", false, "f812beef-6db5-4d31-a835-17fb8dbb2c2a", false, "user@user.user", "User", "User" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "47ff2718-210d-419a-86c2-00740d104944", "admin@admin.admin", false, false, null, "ADMIN@ADMIN.ADMIN", "ADMIN@ADMIN.ADMIN", "AQAAAAEAACcQAAAAEAP9+Wt+DSSz9arCCEjAPRGGBytjWr9AoFnFZpPVbaS2nnUXbSLgA4wIbS+1xahVIg==", "123456789", false, "803b7e37-f340-4b31-adf0-6b83c938f426", false, "admin@admin.admin", "Admin", "Admin" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "localisations",
+                columns: new[] { "id_localisation", "city", "number", "street" },
+                values: new object[,]
+                {
+                    { 1, "Kraków", 1, "Filipa" },
+                    { 2, "Warszawa", 23, "Długa" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "types",
+                columns: new[] { "id_type", "type" },
+                values: new object[,]
+                {
+                    { 1, "Sedan" },
+                    { 2, "Sports" },
+                    { 3, "Suv" },
+                    { 4, "Cupe" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "2c5e174e-3b0e-446f-86af-483d56fd7211", "8e445865-a24d-4543-a6c6-9443d048cdb8" });
+                values: new object[,]
+                {
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7211", "8e445865-a24d-4543-a6c6-9443d048cdb8" },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "8e445865-a24d-4543-a6c6-9443d048cdb9" }
+                });
 
             migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "2c5e174e-3b0e-446f-86af-483d56fd7210", "8e445865-a24d-4543-a6c6-9443d048cdb9" });
+                table: "cars",
+                columns: new[] { "id_car", "Localisations", "Types", "make", "model", "power", "price_per_day", "vin" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, "Mercedes", "S500", 300, 500m, "4T1BF12B3VU142754" },
+                    { 2, 1, 2, "Tesla", "Roadster", 700, 700m, "JH4KA8270RC000976" },
+                    { 3, 1, 1, "Mercedes", "190", 120, 200m, "1FTRW14W84KC76110" },
+                    { 4, 2, 3, "BMW", "X3", 200, 300m, "1FTJW36F2TEA03179" },
+                    { 5, 2, 4, "Ford", "Mustang", 400, 450m, "JH4DC4450RS002529" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -376,6 +407,26 @@ namespace CarRental.Migrations
 
             migrationBuilder.DropTable(
                 name: "localisations");
+
+            migrationBuilder.DeleteData(
+                table: "types",
+                keyColumn: "id_type",
+                keyValue: 1);
+
+            migrationBuilder.DeleteData(
+                table: "types",
+                keyColumn: "id_type",
+                keyValue: 2);
+
+            migrationBuilder.DeleteData(
+                table: "types",
+                keyColumn: "id_type",
+                keyValue: 3);
+
+            migrationBuilder.DeleteData(
+                table: "types",
+                keyColumn: "id_type",
+                keyValue: 4);
         }
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230215200500_ALL")]
+    [Migration("20230217124521_ALL")]
     partial class ALL
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,16 +101,16 @@ namespace CarRental.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "24e77769-ba3f-498d-b08e-809860ee5354",
+                            ConcurrencyStamp = "47ff2718-210d-419a-86c2-00740d104944",
                             Email = "admin@admin.admin",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.ADMIN",
                             NormalizedUserName = "ADMIN@ADMIN.ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHbIhF4iJDD4KSXiozoUx835BofkFf+v9XrHfDL3Qwe+X5xxQ2/nXeg7n/Es0aizkQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAP9+Wt+DSSz9arCCEjAPRGGBytjWr9AoFnFZpPVbaS2nnUXbSLgA4wIbS+1xahVIg==",
                             PhoneNumber = "123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8a565466-9494-4bad-bad5-924d4d692051",
+                            SecurityStamp = "803b7e37-f340-4b31-adf0-6b83c938f426",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.admin",
                             first_name = "Admin",
@@ -120,16 +120,16 @@ namespace CarRental.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6b18f4fc-2018-46f7-8b9f-0aa4062cce72",
+                            ConcurrencyStamp = "c1fc4525-0e44-45f5-a245-2cb69d606aca",
                             Email = "user@user.user",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@USER.USER",
                             NormalizedUserName = "USER@USER.USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOAQxoWoRhcAXg3a+KRFBXf9nR6buQkBJBDjevAB4Zx40V9l1xnek0i/dDiY8uXSNA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJDUrRiithSJ7uczrUvFAv2jvQrPhdvEHo4rA8wLI6XCf5UKbNCuVG79NyrNsxeu6g==",
                             PhoneNumber = "987654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cc629663-8c39-44ef-bede-9289f63ad7eb",
+                            SecurityStamp = "f812beef-6db5-4d31-a835-17fb8dbb2c2a",
                             TwoFactorEnabled = false,
                             UserName = "user@user.user",
                             first_name = "User",
@@ -176,6 +176,63 @@ namespace CarRental.Migrations
                     b.HasIndex("Types");
 
                     b.ToTable("cars");
+
+                    b.HasData(
+                        new
+                        {
+                            id_car = 1,
+                            Localisations = 1,
+                            Types = 1,
+                            make = "Mercedes",
+                            model = "S500",
+                            power = 300,
+                            price_per_day = 500m,
+                            vin = "4T1BF12B3VU142754"
+                        },
+                        new
+                        {
+                            id_car = 2,
+                            Localisations = 1,
+                            Types = 2,
+                            make = "Tesla",
+                            model = "Roadster",
+                            power = 700,
+                            price_per_day = 700m,
+                            vin = "JH4KA8270RC000976"
+                        },
+                        new
+                        {
+                            id_car = 3,
+                            Localisations = 1,
+                            Types = 1,
+                            make = "Mercedes",
+                            model = "190",
+                            power = 120,
+                            price_per_day = 200m,
+                            vin = "1FTRW14W84KC76110"
+                        },
+                        new
+                        {
+                            id_car = 4,
+                            Localisations = 2,
+                            Types = 3,
+                            make = "BMW",
+                            model = "X3",
+                            power = 200,
+                            price_per_day = 300m,
+                            vin = "1FTJW36F2TEA03179"
+                        },
+                        new
+                        {
+                            id_car = 5,
+                            Localisations = 2,
+                            Types = 4,
+                            make = "Ford",
+                            model = "Mustang",
+                            power = 400,
+                            price_per_day = 450m,
+                            vin = "JH4DC4450RS002529"
+                        });
                 });
 
             modelBuilder.Entity("CarRental.Models.Localisations", b =>
@@ -200,6 +257,22 @@ namespace CarRental.Migrations
                     b.HasKey("id_localisation");
 
                     b.ToTable("localisations");
+
+                    b.HasData(
+                        new
+                        {
+                            id_localisation = 1,
+                            city = "Kraków",
+                            number = 1,
+                            street = "Filipa"
+                        },
+                        new
+                        {
+                            id_localisation = 2,
+                            city = "Warszawa",
+                            number = 23,
+                            street = "Długa"
+                        });
                 });
 
             modelBuilder.Entity("CarRental.Models.Payments", b =>
@@ -213,7 +286,7 @@ namespace CarRental.Migrations
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<DateTime>("payment_date")
+                    b.Property<DateTime?>("payment_date")
                         .HasColumnType("date");
 
                     b.HasKey("id_payment");
@@ -271,6 +344,28 @@ namespace CarRental.Migrations
                     b.HasKey("id_type");
 
                     b.ToTable("types");
+
+                    b.HasData(
+                        new
+                        {
+                            id_type = 1,
+                            type = "Sedan"
+                        },
+                        new
+                        {
+                            id_type = 2,
+                            type = "Sports"
+                        },
+                        new
+                        {
+                            id_type = 3,
+                            type = "Suv"
+                        },
+                        new
+                        {
+                            id_type = 4,
+                            type = "Cupe"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -303,14 +398,14 @@ namespace CarRental.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "fcf8fe1a-a341-45bd-908d-5388ec8f034b",
+                            ConcurrencyStamp = "76d58b54-d7a3-4171-8a9f-cb318d4dee66",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7211",
-                            ConcurrencyStamp = "bbadd2b5-4a41-4c24-a2eb-0a47c785915f",
+                            ConcurrencyStamp = "5a011fbb-ec1a-40d1-9fb3-bac4f4f6260c",
                             Name = "User",
                             NormalizedName = "USER"
                         });
