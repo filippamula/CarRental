@@ -15,12 +15,12 @@
             <input type="hidden" asp-for="id_car" />
             <div class="form-group">
                 <label asp-for="type" class="control-label"></label>
-                <input asp-for="type" class="form-control" />
+                <input asp-for="type.id_type" class="form-control" />
                 <span asp-validation-for="type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="localisation" class="control-label"></label>
-                <input asp-for="localisation" class="form-control" />
+                <input asp-for="localisation.id_localisation" class="form-control" />
                 <span asp-validation-for="localisation" class="text-danger"></span>
             </div>
             <div class="form-group">

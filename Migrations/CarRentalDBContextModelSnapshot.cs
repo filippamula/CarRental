@@ -99,16 +99,16 @@ namespace CarRental.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ca7b1433-7851-49a0-b5a9-98b062b60054",
+                            ConcurrencyStamp = "24e77769-ba3f-498d-b08e-809860ee5354",
                             Email = "admin@admin.admin",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.ADMIN",
                             NormalizedUserName = "ADMIN@ADMIN.ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMOOqjO7ZrI4V3aGuwwjSAf0IKYf18SreEFJt83qyg7vKsKhS21TFolxXgBSCwts+g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHbIhF4iJDD4KSXiozoUx835BofkFf+v9XrHfDL3Qwe+X5xxQ2/nXeg7n/Es0aizkQ==",
                             PhoneNumber = "123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "72a10959-ac96-4f11-99ae-899c4f83ac5e",
+                            SecurityStamp = "8a565466-9494-4bad-bad5-924d4d692051",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.admin",
                             first_name = "Admin",
@@ -118,16 +118,16 @@ namespace CarRental.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e9b64f50-db2c-42d9-90f1-1da198af8d51",
+                            ConcurrencyStamp = "6b18f4fc-2018-46f7-8b9f-0aa4062cce72",
                             Email = "user@user.user",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@USER.USER",
                             NormalizedUserName = "USER@USER.USER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEESwsHMZgalke0MdUH2gpGSfdhZChCNHMo6AiEdQdXutN4E5y7gK1mLNuVcxjbPIHg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOAQxoWoRhcAXg3a+KRFBXf9nR6buQkBJBDjevAB4Zx40V9l1xnek0i/dDiY8uXSNA==",
                             PhoneNumber = "987654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f39859ca-489e-45bc-8b03-79305c808788",
+                            SecurityStamp = "cc629663-8c39-44ef-bede-9289f63ad7eb",
                             TwoFactorEnabled = false,
                             UserName = "user@user.user",
                             first_name = "User",
@@ -143,10 +143,10 @@ namespace CarRental.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_car"), 1L, 1);
 
-                    b.Property<int>("Localisations")
+                    b.Property<int?>("Localisations")
                         .HasColumnType("int");
 
-                    b.Property<int>("Types")
+                    b.Property<int?>("Types")
                         .HasColumnType("int");
 
                     b.Property<string>("make")
@@ -227,22 +227,29 @@ namespace CarRental.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id_rental"), 1L, 1);
 
+                    b.Property<int>("Cars")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Customer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Payments")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("date_from")
                         .HasColumnType("date");
 
                     b.Property<DateTime>("date_to")
                         .HasColumnType("date");
 
-                    b.Property<int>("id_car")
-                        .HasColumnType("int");
-
-                    b.Property<int>("id_customer")
-                        .HasColumnType("int");
-
-                    b.Property<int>("id_payment")
-                        .HasColumnType("int");
-
                     b.HasKey("id_rental");
+
+                    b.HasIndex("Cars");
+
+                    b.HasIndex("Customer");
+
+                    b.HasIndex("Payments");
 
                     b.ToTable("rentals");
                 });
@@ -294,14 +301,14 @@ namespace CarRental.Migrations
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
-                            ConcurrencyStamp = "88fda05b-ef52-48ed-9e6a-9d77f2f28fee",
+                            ConcurrencyStamp = "fcf8fe1a-a341-45bd-908d-5388ec8f034b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "2c5e174e-3b0e-446f-86af-483d56fd7211",
-                            ConcurrencyStamp = "8ce29d4c-2c65-42ce-be24-be3fa8c8db14",
+                            ConcurrencyStamp = "bbadd2b5-4a41-4c24-a2eb-0a47c785915f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -433,19 +440,42 @@ namespace CarRental.Migrations
                 {
                     b.HasOne("CarRental.Models.Localisations", "localisation")
                         .WithMany()
-                        .HasForeignKey("Localisations")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Localisations");
 
                     b.HasOne("CarRental.Models.Types", "type")
                         .WithMany()
-                        .HasForeignKey("Types")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Types");
 
                     b.Navigation("localisation");
 
                     b.Navigation("type");
+                });
+
+            modelBuilder.Entity("CarRental.Models.Rentals", b =>
+                {
+                    b.HasOne("CarRental.Models.Cars", "car")
+                        .WithMany()
+                        .HasForeignKey("Cars")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarRental.Areas.Identity.Data.Customer", "customer")
+                        .WithMany()
+                        .HasForeignKey("Customer")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarRental.Models.Payments", "payment")
+                        .WithMany()
+                        .HasForeignKey("Payments")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("car");
+
+                    b.Navigation("customer");
+
+                    b.Navigation("payment");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

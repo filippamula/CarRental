@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CarRental.Models.Localisations>
+
+@{
+    ViewData["Title"] = "Localisations";
+}
+
+<h1>Localisations</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.city)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.street)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.number)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.city)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.street)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.number)
+            </td>
+            <td>
+                <a asp-action="Available_cars" asp-route-id="@item.id_localisation">Available cars</a> |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

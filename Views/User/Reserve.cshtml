@@ -1,0 +1,44 @@
+﻿@model CarRental.Models.Cars
+
+
+@{
+    ViewData["Title"] = "Reserve";
+    DateTime? date_from = null;
+    DateTime? date_to = null;
+}
+
+<h1>Reserve</h1>
+
+<h4>@Html.DisplayFor(model => model.make) @Html.DisplayFor(model => model.model)</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ReserveConfirmation" asp-route-id="@Model.id_car">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id_car" />
+           <div class="form-group">
+                <label class="control-label"></label>
+                <input asp-for="@date_from" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input asp-for="@date_to" class="form-control" />
+                <span class="text-danger"></span>
+            </div> 
+            <div class="form-group">
+                <input type="submit" value="Reserve" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

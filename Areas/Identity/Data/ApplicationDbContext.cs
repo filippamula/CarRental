@@ -17,6 +17,7 @@ public class ApplicationDbContext : IdentityDbContext<Customer>
     public DbSet<Localisations> localisations { get; set; }
     public DbSet<Cars> cars { get; set; }
     public DbSet<Rentals> rentals { get; set; }
+    public DbSet<Customer> customers { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

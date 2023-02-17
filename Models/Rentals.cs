@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CarRental.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarRental.Models
@@ -9,13 +10,13 @@ namespace CarRental.Models
         public int id_rental { get; set; }
         [Required]
         [ForeignKey("Customer")]
-        public int id_customer { get; set; }
+        public Customer customer { get; set; }
         [Required]
         [ForeignKey("Cars")]
-        public int id_car { get; set; }
+        public Cars car { get; set; }
         [Required]
         [ForeignKey("Payments")]
-        public int id_payment { get; set; }
+        public Payments payment { get; set; }
         [Required]
         [Column(TypeName = "date")]
         public DateTime date_from { get; set; }

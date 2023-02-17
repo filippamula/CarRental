@@ -64,9 +64,19 @@ namespace CarRental.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Cars car)
         {
+            var carDB = _context.cars.ToList().FirstOrDefault(x => x.id_car == id);
+            carDB.localisation = _context.localisations.ToList().FirstOrDefault(x => x.id_localisation == car.localisation.id_localisation);
+            carDB.type = _context.types.ToList().FirstOrDefault(x => x.id_type == car.type.id_type);
+            carDB.power = car.power;
+            carDB.price_per_day = car.price_per_day;
+            carDB.vin = car.vin;
+            carDB.model = car.model;
+            carDB.make = car.make;
+
+   
             try
             {
-                _context.Update(car);
+                _context.Update(carDB);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -79,7 +89,7 @@ namespace CarRental.Controllers
         // GET: CarsController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return View(_context.cars.ToList().FirstOrDefault(x => x.id_car == id));
         }
 
         // POST: CarsController/Delete/5

@@ -80,23 +80,6 @@ namespace CarRental.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "rentals",
-                columns: table => new
-                {
-                    id_rental = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    id_customer = table.Column<int>(type: "int", nullable: false),
-                    id_car = table.Column<int>(type: "int", nullable: false),
-                    id_payment = table.Column<int>(type: "int", nullable: false),
-                    date_from = table.Column<DateTime>(type: "date", nullable: false),
-                    date_to = table.Column<DateTime>(type: "date", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_rentals", x => x.id_rental);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -208,8 +191,8 @@ namespace CarRental.Migrations
                 {
                     id_car = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Types = table.Column<int>(type: "int", nullable: false),
-                    Localisations = table.Column<int>(type: "int", nullable: false),
+                    Types = table.Column<int>(type: "int", nullable: true),
+                    Localisations = table.Column<int>(type: "int", nullable: true),
                     make = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     model = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     vin = table.Column<string>(type: "char(17)", nullable: false),
@@ -223,13 +206,46 @@ namespace CarRental.Migrations
                         name: "FK_cars_localisations_Localisations",
                         column: x => x.Localisations,
                         principalTable: "localisations",
-                        principalColumn: "id_localisation",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id_localisation");
                     table.ForeignKey(
                         name: "FK_cars_types_Types",
                         column: x => x.Types,
                         principalTable: "types",
-                        principalColumn: "id_type",
+                        principalColumn: "id_type");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "rentals",
+                columns: table => new
+                {
+                    id_rental = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Customer = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Cars = table.Column<int>(type: "int", nullable: false),
+                    Payments = table.Column<int>(type: "int", nullable: false),
+                    date_from = table.Column<DateTime>(type: "date", nullable: false),
+                    date_to = table.Column<DateTime>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_rentals", x => x.id_rental);
+                    table.ForeignKey(
+                        name: "FK_rentals_AspNetUsers_Customer",
+                        column: x => x.Customer,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_rentals_cars_Cars",
+                        column: x => x.Cars,
+                        principalTable: "cars",
+                        principalColumn: "id_car",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_rentals_payments_Payments",
+                        column: x => x.Payments,
+                        principalTable: "payments",
+                        principalColumn: "id_payment",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -238,8 +254,8 @@ namespace CarRental.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "88fda05b-ef52-48ed-9e6a-9d77f2f28fee", "Admin", "ADMIN" },
-                    { "2c5e174e-3b0e-446f-86af-483d56fd7211", "8ce29d4c-2c65-42ce-be24-be3fa8c8db14", "User", "USER" }
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7210", "fcf8fe1a-a341-45bd-908d-5388ec8f034b", "Admin", "ADMIN" },
+                    { "2c5e174e-3b0e-446f-86af-483d56fd7211", "bbadd2b5-4a41-4c24-a2eb-0a47c785915f", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -247,8 +263,8 @@ namespace CarRental.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "first_name", "last_name" },
                 values: new object[,]
                 {
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb8", 0, "e9b64f50-db2c-42d9-90f1-1da198af8d51", "user@user.user", false, false, null, "USER@USER.USER", "USER@USER.USER", "AQAAAAEAACcQAAAAEESwsHMZgalke0MdUH2gpGSfdhZChCNHMo6AiEdQdXutN4E5y7gK1mLNuVcxjbPIHg==", "987654321", false, "f39859ca-489e-45bc-8b03-79305c808788", false, "user@user.user", "User", "User" },
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "ca7b1433-7851-49a0-b5a9-98b062b60054", "admin@admin.admin", false, false, null, "ADMIN@ADMIN.ADMIN", "ADMIN@ADMIN.ADMIN", "AQAAAAEAACcQAAAAEMOOqjO7ZrI4V3aGuwwjSAf0IKYf18SreEFJt83qyg7vKsKhS21TFolxXgBSCwts+g==", "123456789", false, "72a10959-ac96-4f11-99ae-899c4f83ac5e", false, "admin@admin.admin", "Admin", "Admin" }
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb8", 0, "6b18f4fc-2018-46f7-8b9f-0aa4062cce72", "user@user.user", false, false, null, "USER@USER.USER", "USER@USER.USER", "AQAAAAEAACcQAAAAEOAQxoWoRhcAXg3a+KRFBXf9nR6buQkBJBDjevAB4Zx40V9l1xnek0i/dDiY8uXSNA==", "987654321", false, "cc629663-8c39-44ef-bede-9289f63ad7eb", false, "user@user.user", "User", "User" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "24e77769-ba3f-498d-b08e-809860ee5354", "admin@admin.admin", false, false, null, "ADMIN@ADMIN.ADMIN", "ADMIN@ADMIN.ADMIN", "AQAAAAEAACcQAAAAEHbIhF4iJDD4KSXiozoUx835BofkFf+v9XrHfDL3Qwe+X5xxQ2/nXeg7n/Es0aizkQ==", "123456789", false, "8a565466-9494-4bad-bad5-924d4d692051", false, "admin@admin.admin", "Admin", "Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -309,6 +325,21 @@ namespace CarRental.Migrations
                 name: "IX_cars_Types",
                 table: "cars",
                 column: "Types");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_rentals_Cars",
+                table: "rentals",
+                column: "Cars");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_rentals_Customer",
+                table: "rentals",
+                column: "Customer");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_rentals_Payments",
+                table: "rentals",
+                column: "Payments");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -329,12 +360,6 @@ namespace CarRental.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "cars");
-
-            migrationBuilder.DropTable(
-                name: "payments");
-
-            migrationBuilder.DropTable(
                 name: "rentals");
 
             migrationBuilder.DropTable(
@@ -342,6 +367,12 @@ namespace CarRental.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "cars");
+
+            migrationBuilder.DropTable(
+                name: "payments");
 
             migrationBuilder.DropTable(
                 name: "localisations");
