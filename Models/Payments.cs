@@ -13,6 +13,6 @@ namespace CarRental.Models
         public double amount { get; set; }
 
         [Column(TypeName ="date")]
-        public DateTime payment_date { get; set; }
+        public DateTime? payment_date { get; set; }
     }
 }
