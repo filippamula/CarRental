@@ -16,13 +16,10 @@
                 @Html.DisplayNameFor(model => model.model)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.vin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.power)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.price_per_day)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.type)
             </th>
             <th></th>
         </tr>
@@ -37,13 +34,10 @@
                 @Html.DisplayFor(modelItem => item.model)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.vin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.power)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.price_per_day)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.type.type)
             </td>
             <td>
                 <a asp-action="Reserve" asp-route-id="@item.id_car">Reserve</a>

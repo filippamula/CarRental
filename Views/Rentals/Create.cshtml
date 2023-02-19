@@ -29,7 +29,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="car" class="control-label"></label>
-                <input asp-for="car.id_car" class="form-control" />
+                <select asp-for="car.id_car" class="form-control">
+                    @{
+                        var cars = _context.cars.ToList();
+                        foreach (var item in cars)
+                        {
+                            <option value="@item.id_car">@item.make @item.model</option>
+                        }
+                    }
+                </select>
                 <span asp-validation-for="car" class="text-danger"></span>
             </div>
             <div class="form-group">

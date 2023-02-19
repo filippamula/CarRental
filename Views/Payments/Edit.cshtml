@@ -15,12 +15,12 @@
             <input type="hidden" asp-for="id_payment" />
             <div class="form-group">
                 <label asp-for="amount" class="control-label"></label>
-                <input asp-for="amount" class="form-control" />
+                <input asp-for="amount" class="form-control" value="@Model.amount" />
                 <span asp-validation-for="amount" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="payment_date" class="control-label"></label>
-                <input asp-for="payment_date" class="form-control" />
+                <input asp-for="payment_date" class="form-control" value="@Model.payment_date"/>
                 <span asp-validation-for="payment_date" class="text-danger"></span>
             </div>
             <div class="form-group">
